@@ -1,6 +1,7 @@
 import json
 from flask import request, jsonify
 from flask_restful import Resource, reqparse, abort, fields, marshal_with
+from flask_jwt_extended import jwt_required
 
 from application.data.models import db,Movie
 
@@ -27,6 +28,7 @@ resource_feilds = {
 
 class AllMovieAPI(Resource):
     @marshal_with(resource_feilds)
+    @jwt_required()
     def get(resource):
         movies = Movie.query.all()
         if not movies:
