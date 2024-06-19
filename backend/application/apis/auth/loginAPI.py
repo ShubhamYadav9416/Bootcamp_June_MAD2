@@ -42,7 +42,7 @@ class LoginAPI(Resource):
 
 class RefreshTokenAPI(Resource):
     @jwt_required(refresh=True)
-    def get(self):
+    def post(self):
         identity = get_jwt_identity()
         access_token = create_access_token(identity=identity)
         return {'access_token': access_token}, 200
