@@ -1,17 +1,25 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <FlashMessage
+    :position= "'left bottom'"
+    style="font-size: 15px; position: relative; z-index: 10000;"
+    />
+    <router-view />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  components: {},
+  data() {
+    return{};
+  },
+  methods:{},
+  computed:{},
+  beforeCreate(){
+    console.log("Creating app.");
+    this.$store.commit("intialiseStore")
   }
 }
 </script>
