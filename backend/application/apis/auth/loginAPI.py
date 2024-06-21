@@ -37,7 +37,7 @@ class LoginAPI(Resource):
         # make user login
         login_user(user)
 
-        return jsonify({'status': 'success','message': 'Successfully logged in !!', 'access_token': access_token, 'refresh_token': refresh_token , "user_mail": user_mail})
+        return jsonify({'status': 'success','message': 'Successfully logged in !!', 'access_token': access_token, 'refresh_token': refresh_token , "user_mail": user_mail, "user_id":user.user_id})
 
 
 class RefreshTokenAPI(Resource):

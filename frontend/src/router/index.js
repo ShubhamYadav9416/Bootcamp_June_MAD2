@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 
 
 import HelloWorld from "@/components/HelloWorld.vue";
+import LoginView from "@/view/auth/LoginView.vue";
+import RegisterView from "@/view/auth/RegisterView"
 
 
 
@@ -13,6 +15,16 @@ const routes = [
         path: '/',
         name: 'HelloWorld',
         component: HelloWorld,
+    },
+    {
+        path: "/login",
+        name:'LoginView',
+        component: LoginView
+    },
+    {
+        path: "/register",
+        name:'RegisterView',
+        component: RegisterView
     },
     {
         path: '*',
