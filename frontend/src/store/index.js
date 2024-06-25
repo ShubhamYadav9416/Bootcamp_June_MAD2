@@ -11,7 +11,8 @@ export default new Vuex.Store({
             user_mail: "",
         },
         access_token: "",
-        refresh_token: ""
+        refresh_token: "",
+        logger_status: false
     },
     getters:{
         get_user: function(state){
@@ -31,6 +32,9 @@ export default new Vuex.Store({
         },
         get_refresh_token: function(state){
             return state.refresh_token
+        },
+        get_logged_status: function(state){
+            return state.logger_status
         }
     },
     mutations:{
@@ -48,6 +52,7 @@ export default new Vuex.Store({
             state.user.role = payload.role;
             state.access_token = payload.access_token;
             state.refresh_token = payload.refresh_token;
+            state.logger_status = true;
         },
         SET_STATE_AFTER_LOGOUT(state){
             state.user.user_id = "";
@@ -55,6 +60,7 @@ export default new Vuex.Store({
             state.user.role = "";
             state.access_token = "";
             state.refresh_token = "";
+            state.logger_status = false
         },
         SET_STATE_AFTER_PROFILE_UPDATE(state, payload){
             state.user.user_mail = payload.user_mail;

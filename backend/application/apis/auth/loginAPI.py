@@ -2,11 +2,12 @@
 from flask import jsonify
 from flask_restful import Resource, reqparse
 from flask_security import login_user
-from flask_security.utils import verify_password, hash_password
+# from flask_security.utils import verify_password, hash_password
+from werkzeug.security import generate_password_hash,check_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity 
 
 # import model tables
-from application.data.models import db,User
+from application.data.models import db,User,UserRoles,Roles
 
 
 parser = reqparse.RequestParser()
@@ -27,7 +28,8 @@ class LoginAPI(Resource):
             return jsonify({'status':'failed','message': 'User doesn\'t exist !!'})
 
         # Check for user passsword
-        if  verify_password(password, user.password):
+        if not check_password_hash(user.password, password):
+            print("wrong password")
             return jsonify({'status':'failed','message': 'wrong password'})
 
         # initialize tokens
@@ -36,8 +38,11 @@ class LoginAPI(Resource):
         
         # make user login
         login_user(user)
-
-        return jsonify({'status': 'success','message': 'Successfully logged in !!', 'access_token': access_token, 'refresh_token': refresh_token , "user_mail": user_mail, "user_id":user.user_id})
+        
+        # user_role = UserRoles.columns.user_id
+        # user_role = UserRoles.get.join(User, UserRoles.user_id == user.user_id).join(Roles, UserRoles.role_id == Roles.id).add_columns(Roles.name)
+        print(user.roles[0].name)
+        return jsonify({'status': 'success','message': 'Successfully logged in !!','role' : user.roles[0].name ,'access_token': access_token, 'refresh_token': refresh_token , "user_mail": user_mail, "user_id":user.user_id})
 
 
 class RefreshTokenAPI(Resource):

@@ -55,32 +55,30 @@ export default {
                 alert("Please eneter email and password");
                 return;
             }
-            console.log(this.form.password)
             axios.post("http://127.0.0.1:8081/api/login",{
                 user_mail: this.form.email,
                 password: this.form.password
-            }).then((response) => {
+            })
+            .then((response) => {
                 if(response.data.status === "success"){
-                    const access_token = response.data.access_token;
-                    const refresh_token = response.data.refresh_token;
-                    const user_mail = response.data.user_mail;
-                    const user_id = response.data.user_id;
-                    const role = response.data.role;
-
-                    localStorage.setItem("access_token", access_token);
-                    localStorage.setItem("refresh_token", refresh_token);
-                    localStorage.setItem("access_token", user_mail);
-                    localStorage.setItem("refresh_token", user_id);
-                    localStorage.setItem("access_token", role);
+                    this.$store.dispatch("set_state_after_login", response.data);
+                    this.flashMessage.success({
+                        message: response.data.message
+                    })
 
                     this.$router.push("/");
                 }
                 if(response.data.status === "failed"){
-                    alert(response.data.message)
+                    this.flashMessage.error({
+                        message: response.data.message
+                    })
                 }
             }).catch((error) =>{
                 console.error(error);
-                alert("An error occurred while login the user")
+                // alert("An error occurred while login the user")
+                this.flashMessage.error({
+                    message: "Error occur will login the user"
+                })
             }
             )
         },

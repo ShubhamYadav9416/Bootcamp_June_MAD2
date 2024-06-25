@@ -56,8 +56,8 @@ export default {
                 role_selected: '',
             },
             options: [
-                { text: 'Admin', value: 'watcher' },
-                { text: 'Normal User', value: 'admin' },
+                { text: 'Admin', value: 'admin' },
+                { text: 'Normal User', value: 'watcher' },
                 
             ]
         }
@@ -83,13 +83,16 @@ export default {
                 password: this.form.password,
                 role: this.form.role_selected
             }).then((response) => {
-                console.log(response)
                 if (response.data.status == "success"){
-                    alert("Successfully Registered!!");
+
+                    this.flashMessage.success({
+                        message: "Successfully registered, Login please."
+                    })
+
                     this.$router.push("/login");
                 }
                 if (response.data.status == "failed"){
-                    alert(response.data.message);
+                    // alert(response.data.message);
                     this.onReset();
                 }
             }).catch((error) => {
